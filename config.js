@@ -1,56 +1,39 @@
-// config.js - Конфигурация GigaChat API
+// config-simple.js - Упрощенная версия без init()
 const MAXGPT_CONFIG = {
     // 🔑 Ваши данные GigaChat
     CLIENT_ID: '019bd542-301a-7cfc-baec-2d046295513b',
     SCOPE: 'GIGACHAT_API_PERS',
     
-    // 🌐 Эндпоинты GigaChat
+    // 🌐 Эндпоинты
     AUTH_URL: 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth',
     API_URL: 'https://gigachat.devices.sberbank.ru/api/v1/chat/completions',
     
     // 🤖 Модель
     MODEL: 'GigaChat',
     
-    // ⚙️ Параметры запроса
+    // ⚙️ Параметры
     MAX_TOKENS: 1000,
     TEMPERATURE: 0.7,
     
-    // 🎯 Системный промпт
-    SYSTEM_PROMPT: `Ты — MaxGPT, полезный AI-помощник.
-Отвечай точно, информативно и дружелюбно.
-Избегай политических оценок и спорных тем.`,
+    // 🎯 Промпт
+    SYSTEM_PROMPT: `Ты — MaxGPT, полезный AI-помощник.`,
     
     // 🔧 Настройки
-    USE_MOCK_DATA: false,    // true = демо-режим без API
-    DEBUG_MODE: true,        // Детальные логи
+    USE_MOCK_DATA: false,
+    DEBUG_MODE: true,
     
-    // 📊 Мониторинг (исправлено: правильные названия свойств)
-    PING_INTERVAL: 60000,    // Пинг каждые 60 секунд
-    NETWORK_CHECK_INTERVAL: 30000, // Проверка сети каждые 30 секунд
+    // 📊 Мониторинг
+    PING_INTERVAL: 60000,
+    NETWORK_CHECK_INTERVAL: 30000,
     
-    // 📦 Инициализация
-    init: function() {
-        this.RQ_UID = this.generateUUID();
-        console.log('🔧 MaxGPT Config инициализирован');
-        return this;
-    },
-    
-    // 🔄 Генерация UUID для RqUID
-    generateUUID: function() {
+    // Добавляем RQ_UID напрямую
+    RQ_UID: (function() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
             const r = Math.random() * 16 | 0;
             const v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
-    }
-}.init();
+    })()
+};
 
-// 🔒 Защита конфигурации
-Object.freeze(MAXGPT_CONFIG);
-
-console.log('🔧 MaxGPT Config загружен для GigaChat:', {
-    clientId: MAXGPT_CONFIG.CLIENT_ID ? 'установлен' : 'отсутствует',
-    rqUid: MAXGPT_CONFIG.RQ_UID.substring(0, 8) + '...',
-    pingInterval: MAXGPT_CONFIG.PING_INTERVAL,
-    networkCheckInterval: MAXGPT_CONFIG.NETWORK_CHECK_INTERVAL
-});
+console.log('✅ Конфигурация загружена:', Object.keys(MAXGPT_CONFIG));
