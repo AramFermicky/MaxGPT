@@ -24,7 +24,7 @@ const MAXGPT_CONFIG = {
     USE_MOCK_DATA: false,    // true = демо-режим без API
     DEBUG_MODE: true,        // Детальные логи
     
-    // 📊 Мониторинг
+    // 📊 Мониторинг (исправлено: правильные названия свойств)
     PING_INTERVAL: 60000,    // Пинг каждые 60 секунд
     NETWORK_CHECK_INTERVAL: 30000, // Проверка сети каждые 30 секунд
     
@@ -47,3 +47,10 @@ const MAXGPT_CONFIG = {
 
 // 🔒 Защита конфигурации
 Object.freeze(MAXGPT_CONFIG);
+
+console.log('🔧 MaxGPT Config загружен для GigaChat:', {
+    clientId: MAXGPT_CONFIG.CLIENT_ID ? 'установлен' : 'отсутствует',
+    rqUid: MAXGPT_CONFIG.RQ_UID.substring(0, 8) + '...',
+    pingInterval: MAXGPT_CONFIG.PING_INTERVAL,
+    networkCheckInterval: MAXGPT_CONFIG.NETWORK_CHECK_INTERVAL
+});

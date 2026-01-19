@@ -307,6 +307,34 @@ class AppCore {
     
     // 🔄 Запуск периодических проверок
     startPeriodicChecks() {
+    // Проверяем наличие конфигурации
+    if (!this.config) {
+        console.error('❌ Конфигурация не найдена');
+        return;
+    }
+    // Безопасный доступ к интервалам (значения по умолчанию)
+    const networkInterval = this.config.NETWORK_CHECK_INTERVAL || 30000;
+    const pingInterval = this.config.PING_INTERVAL || 60000;
+    
+    console.log('🔄 Запуск периодических проверок:', {
+        network: networkInterval + 'мс',
+        ping: pingInterval + 'мс'
+    });
+    
+    // Проверка сети
+    setInterval(async () => {
+        await this.diagnoseSystem.checkNetworkStatus();
+        this.updateStatusDisplay();
+    }, networkInterval);
+    
+    // Пинг
+    setInterval(async () => {
+        if (this.diagnoseSystem.status.isOnline) {
+            await this.diagnoseSystem.measurePing();
+            this.updateStatusDisplay();
+        }
+    }, pingInterval);
+}
         // Проверка сети
         setInterval(async () => {
             await this.diagnoseSystem.checkNetworkStatus();
