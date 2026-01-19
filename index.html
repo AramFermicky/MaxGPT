@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxGPT 🇷🇺 | Умный помощник с российским характером</title>
+    <meta name="description" content="Современный AI помощник на основе DeepSeek с фокусом на российскую тематику">
+    <meta name="keywords" content="AI, DeepSeek, Россия, помощник, чат, нейросеть">
+    <meta name="author" content="MaxGPT Team">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇷🇺</text></svg>">
+    <!-- Open Graph метатеги для соцсетей -->
+    <meta property="og:title" content="MaxGPT - Умный помощник">
+    <meta property="og:description" content="AI ассистент с российским характером">
+    <meta property="og:image" content="https://maxgpt.example.com/og-image.jpg">
+    <meta property="og:url" content="https://maxgpt.example.com">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MaxGPT">
+    <meta name="twitter:description" content="Ваш умный помощник">
+</head>
+<body>
+    <div class="container">
+        <!-- ШАПКА С ЛОГОТИПОМ -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">M</div>
+                <div>
+                    <h1>Max<span class="logo-red">G</span><span class="logo-blue">P</span><span class="logo-red">T</span></h1>
+                    <p class="tagline">Ваш умный помощник с российским характером</p>
+                </div>
+                <span class="flag">🇷🇺</span>
+            </div>
+        </header>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <main class="main-content">
+            <!-- БОКОВАЯ ПАНЕЛЬ -->
+            <aside class="sidebar">
+                <!-- СТАТУС API -->
+                <div class="api-section">
+                    <h3>🔐 Статус системы</h3>
+                    <div class="api-status">
+                        <div class="status-indicator">
+                            <span class="status-dot active"></span>
+                            <span>DeepSeek API активен</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="api-progress"></div>
+                        </div>
+                        <p class="status-note">Защищённое соединение | 🇷🇺</p>
+                    </div>
+                </div>
+
+                <!-- ПРИМЕРЫ ЗАПРОСОВ -->
+                <div class="examples">
+                    <h3>🚀 Быстрые запросы</h3>
+                    <button class="example-btn" data-prompt="Расскажи о последних научных достижениях России в 2024 году">
+                        🏆 Научные прорывы
+                    </button>
+                    <button class="example-btn" data-prompt="Какие культурные мероприятия проходят в Москве и Санкт-Петербурге?">
+                        🎭 Культурные события
+                    </button>
+                    <button class="example-btn" data-prompt="Объясни историю российского триколора и его символику">
+                        🇷🇺 Символика флага
+                    </button>
+                    <button class="example-btn" data-prompt="Какие инновационные стартапы из России получили мировое признание?">
+                        🚀 Российские стартапы
+                    </button>
+                    <button class="example-btn" data-prompt="Расскажи о природных достопримечательностях России">
+                        🏔️ Природа России
+                    </button>
+                    <button class="example-btn" data-prompt="Какие технологии будущего разрабатываются в российских НИИ?">
+                        🔬 Технологии будущего
+                    </button>
+                </div>
+
+                <!-- СТАТИСТИКА -->
+                <div class="stats">
+                    <h3>📊 Статистика сессии</h3>
+                    <p>Сообщений: <span id="message-count">0</span></p>
+                    <p>Символов: <span id="token-count">0</span></p>
+                    <p>Время работы: <span id="session-time">00:00</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="session-progress"></div>
+                    </div>
+                    <button id="clear-chat" class="btn-clear">
+                        🧹 Очистить диалог
+                    </button>
+                </div>
+
+                <!-- ИНФОРМАЦИЯ -->
+                <div class="info-section">
+                    <h3>ℹ️ О MaxGPT</h3>
+                    <p style="font-size: 0.9rem; color: var(--max-dark-gray);">
+                        MaxGPT — интеллектуальный помощник, созданный для предоставления 
+                        точной информации о России. Работает на базе DeepSeek AI.
+                    </p>
+                </div>
+            </aside>
+
+            <!-- ОБЛАСТЬ ЧАТА -->
+            <section class="chat-area gradient-border">
+                <div class="chat-container">
+                    <!-- ИСТОРИЯ СООБЩЕНИЙ -->
+                    <div id="chat-history" class="chat-history">
+                        <!-- ПРИВЕТСТВЕННОЕ СООБЩЕНИЕ -->
+                        <div class="message system-message">
+                            <div class="avatar">🇷🇺</div>
+                            <div class="content">
+                                <strong>MaxGPT:</strong>
+                                <div class="message-text">
+                                    Здравствуйте! 👋 Я — MaxGPT, ваш умный помощник с российским характером. 
+                                    <br><br>
+                                    Я специализируюсь на:
+                                    • Культуре и истории России 🏛️<br>
+                                    • Научных достижениях и инновациях 🔬<br>
+                                    • Современных разработках и технологиях 🚀<br>
+                                    • Природных богатствах и географии 🏔️<br>
+                                    • Культурных событиях и традициях 🎭
+                                    <br><br>
+                                    Чем могу помочь? Задайте вопрос или выберите пример запроса слева.
+                                </div>
+                                <div class="message-time">Только что</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ПОЛЕ ВВОДА -->
+                    <div class="input-area">
+                        <div class="input-container">
+                            <textarea 
+                                id="user-input" 
+                                placeholder="Введите ваш вопрос здесь... Например: 'Расскажи о космических программах России' или 'Какие IT-компании из России известны в мире?'"
+                                rows="3"
+                                maxlength="2000"
+                            ></textarea>
+                            <div class="input-controls">
+                                <button id="clear-input" title="Очистить поле">
+                                    ✕
+                                </button>
+                                <button id="send-btn" title="Отправить сообщение">
+                                    ➤
+                                </button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; color: var(--max-dark-gray);">
+                            <span>Нажмите Enter для отправки, Shift+Enter для новой строки</span>
+                            <span id="char-count">0/2000</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ПОДВАЛ -->
+        <footer class="footer">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <strong>MaxGPT</strong> © 2024 | Версия 1.0.0
+                </div>
+                <div>
+                    Работает на <a href="https://platform.deepseek.com/api-docs/" target="_blank" rel="noopener">DeepSeek API</a> |
+                    <a href="#" id="theme-toggle">🌙 Тема</a> |
+                    <a href="#" id="export-chat">📥 Экспорт</a>
+                </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">
+                Приложение работает полностью в вашем браузере. Данные не отправляются на сторонние серверы.
+            </div>
+        </footer>
+    </div>
+
+    <!-- УВЕДОМЛЕНИЯ -->
+    <div id="notification" class="notification">
+        <strong id="notification-title">Уведомление</strong>
+        <div id="notification-text">Текст уведомления</div>
+    </div>
+
+    <!-- СКРИПТЫ -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- ИНИЦИАЛИЗАЦИЯ -->
+    <script>
+        // Дополнительная инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация счётчика символов
+            const textarea = document.getElementById('user-input');
+            const charCount = document.getElementById('char-count');
+            
+            textarea.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = `${length}/2000`;
+                
+                if (length > 1800) {
+                    charCount.style.color = 'var(--max-red)';
+                } else if (length > 1500) {
+                    charCount.style.color = 'orange';
+                } else {
+                    charCount.style.color = 'var(--max-dark-gray)';
+                }
+            });
+            
+            // Таймер сессии
+            let sessionSeconds = 0;
+            setInterval(() => {
+                sessionSeconds++;
+                const minutes = Math.floor(sessionSeconds / 60);
+                const seconds = sessionSeconds % 60;
+                document.getElementById('session-time').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Обновление прогресс-бара
+                const progress = (sessionSeconds % 300) / 300 * 100;
+                document.getElementById('session-progress').style.width = `${progress}%`;
+            }, 1000);
+            
+            // Имитация прогресса API
+            setInterval(() => {
+                const progress = Math.random() * 30 + 70;
+                document.getElementById('api-progress').style.width = `${progress}%`;
+            }, 3000);
+            
+            // Очистка поля ввода
+            document.getElementById('clear-input').addEventListener('click', function() {
+                textarea.value = '';
+                textarea.focus();
+                charCount.textContent = '0/2000';
+                charCount.style.color = 'var(--max-dark-gray)';
+            });
+            
+            // Переключение темы (заглушка для будущей реализации)
+            document.getElementById('theme-toggle').addEventListener('click', function(e) {
+                e.preventDefault();
+                showNotification('Тема', 'Тёмная тема будет доступна в следующем обновлении!');
+            });
+            
+            // Экспорт чата (заглушка)
+            document.getElementById('export-chat').addEventListener('click', function(e) {
+                e.preventDefault();
+                showNotification('Экспорт', 'Функция экспорта появится в версии 1.1');
+            });
+            
+            // Функция показа уведомлений
+            window.showNotification = function(title, text) {
+                const notification = document.getElementById('notification');
+                document.getElementById('notification-title').textContent = title;
+                document.getElementById('notification-text').textContent = text;
+                
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            };
+            
+            // Фокус на поле ввода при загрузке
+            textarea.focus();
+        });
+    </script>
+</body>
+</html>
