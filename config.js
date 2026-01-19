@@ -1,39 +1,50 @@
-// config.js - Конфигурация для GigaChat API (бесплатно)
+// config.js - Исправленная конфигурация для GigaChat API
 const MAXGPT_CONFIG = {
-    // 🔑 ВСТАВЬТЕ ВАШ БЕСПЛАТНЫЙ КЛЮЧ GIGACHAT ЗДЕСЬ
-    API_KEY: 'MDE5YmQ1NDItMzAxYS03Y2ZjLWJhZWMtMmQwNDYyOTU1MTNiOmNmOGFmNTA2LWQ3YjAtNDViMS1hZjA2LTk0NzFkZWNjZDFmMA==', // Пример: MjAyNDEyMzExNTU1MzJfNjg3OTk0MjUtZjIyMy00MW...
+    // 🔑 Ваши данные (замените на свои, если нужно)
+    CLIENT_ID: '019bd542-301a-7cfc-baec-2d046295513b',
+    CLIENT_SECRET: '', // Обычно пусто для GigaChat (только ID)
+    SCOPE: 'GIGACHAT_API_PERS',
+    RQ_UID: this.generateUUID(), // Генерируем уникальный ID
     
-    // 🌐 Основные эндпоинты GigaChat (могут обновляться)
-    API_URL: 'https://gigachat.devices.sberbank.ru/api/v1/chat/completions', // Основной endpoint
-    AUTH_URL: 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth', // Для получения токена (если нужно)
+    // 🌐 Эндпоинты GigaChat
+    AUTH_URL: 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth',
+    API_URL: 'https://gigachat.devices.sberbank.ru/api/v1/chat/completions',
     
-    // 🤖 Модель GigaChat (проверьте актуальные в документации)
-    MODEL: 'GigaChat', // Основная модель. Другие варианты: 'GigaChat-Plus', 'GigaChat-Pro'
+    // 🤖 Модель
+    MODEL: 'GigaChat',
     
-    // ⚙️ Параметры запроса
+    // ⚙️ Параметры
     MAX_TOKENS: 1000,
     TEMPERATURE: 0.7,
     STREAM: false,
     
-    // 🎯 Системный промпт для "российского" помощника (можно настроить)
-    SYSTEM_PROMPT: `Ты — MaxGPT, полезный и вежливый AI-помощник. 
-Твоя специализация — предоставление информации о России: её культуре, истории, науке, технологиях и современной жизни.
-Отвечай точно, информативно и дружелюбно. Если не знаешь ответа — так и скажи.
-Избегай политических оценок и спорных тем.`,
+    // 🎯 Промпт
+    SYSTEM_PROMPT: `Ты — MaxGPT, полезный AI-помощник.
+Отвечай точно, информативно и дружелюбно.
+Если не знаешь ответа — так и скажи.`,
     
-    // 🔧 Режимы работы
-    USE_DIRECT_API: true, // true = прямой запрос с ключом, false = через OAuth 2.0
-    DEBUG_MODE: true,     // Включить логи для отладки
-    USE_MOCK_DATA: false  // true = заглушки (демо-режим без API)
+    // 🔧 Настройки
+    DEBUG_MODE: true,
+    USE_MOCK_DATA: false,
+    
+    // Генератор UUID для RqUID
+    generateUUID: function() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
 };
 
-// 🔒 Защита конфигурации
+// Инициализируем RQ_UID
+MAXGPT_CONFIG.RQ_UID = MAXGPT_CONFIG.generateUUID();
+
+// 🔒 Защита
 Object.freeze(MAXGPT_CONFIG);
 
-// 📝 Логирование при загрузке
-console.log('🔧 MaxGPT Config загружен для GigaChat:', {
-    apiUrl: MAXGPT_CONFIG.API_URL,
-    model: MAXGPT_CONFIG.MODEL,
-    useDirect: MAXGPT_CONFIG.USE_DIRECT_API,
-    debug: MAXGPT_CONFIG.DEBUG_MODE
+console.log('🔧 MaxGPT Config для GigaChat OAuth загружен:', {
+    clientId: MAXGPT_CONFIG.CLIENT_ID ? 'установлен' : 'отсутствует',
+    rqUid: MAXGPT_CONFIG.RQ_UID.substring(0, 8) + '...',
+    scope: MAXGPT_CONFIG.SCOPE
 });
