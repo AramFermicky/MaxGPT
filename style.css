@@ -776,3 +776,386 @@ a:hover {
         font-size: 14px;
     }
 }
+/* ===== СТИЛИ ДЛЯ НОВОГО ФУНКЦИОНАЛА ===== */
+
+/* Панель индикаторов */
+.live-indicators {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    min-height: 60px;
+}
+
+.indicator-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+}
+
+.indicator-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+/* Быстрые команды */
+.quick-commands {
+    display: flex;
+    gap: 10px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    -webkit-overflow-scrolling: touch;
+}
+
+.quick-command {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.quick-command:hover {
+    background: var(--border-color);
+    transform: translateY(-1px);
+}
+
+.quick-command:active {
+    transform: translateY(0);
+    background: var(--bg-input);
+}
+
+/* Подсказки */
+.hint-message {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 12px 20px;
+    border-radius: 16px;
+    z-index: 9999;
+    backdrop-filter: blur(20px);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 80%;
+    text-align: center;
+    pointer-events: none;
+}
+
+.hint-info {
+    background: rgba(33, 150, 243, 0.15);
+    color: #2196F3;
+    border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+.hint-error {
+    background: rgba(244, 67, 54, 0.15);
+    color: #F44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.hint-success {
+    background: rgba(76, 175, 80, 0.15);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.hint-message.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Сообщения диагностики */
+.diagnostic-message .bubble {
+    background: rgba(255, 193, 7, 0.1) !important;
+    border: 1px solid rgba(255, 193, 7, 0.3) !important;
+}
+
+/* Аватары сообщений */
+.message .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+.user-message .avatar {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    color: white;
+}
+
+.assistant-message .avatar {
+    background: linear-gradient(135deg, var(--accent-red), #ff6b81);
+    color: white;
+}
+
+.system-message .avatar {
+    background: linear-gradient(135deg, #666, #888);
+    color: white;
+}
+
+.error-message .avatar {
+    background: linear-gradient(135deg, #F44336, #E53935);
+    color: white;
+}
+
+.diagnostic-message .avatar {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    color: white;
+}
+
+/* Пузыри сообщений */
+.message .bubble {
+    background: var(--bg-tertiary);
+    border-radius: 18px;
+    padding: 16px 20px;
+    max-width: 85%;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.user-message .bubble {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.assistant-message .bubble {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.message .bubble .text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    word-wrap: break-word;
+}
+
+.message .bubble .text strong {
+    color: var(--accent-blue);
+    font-weight: 700;
+}
+
+.message .bubble .text em {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.message .bubble .text code {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #FF9800;
+}
+
+.message .bubble .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.error-badge {
+    background: rgba(244, 67, 54, 0.2);
+    color: #F44336;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ошибка инициализации */
+.init-error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 10000;
+    text-align: center;
+}
+
+.init-error h3 {
+    color: var(--accent-red);
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.init-error p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.error-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.init-error button {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.init-error button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 85, 255, 0.2);
+}
+
+.init-error button:active {
+    transform: translateY(0);
+}
+
+/* Анимации */
+.message {
+    animation: messageAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.message.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Спиннер */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .live-indicators {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px 12px;
+    }
+    
+    .indicator {
+        min-height: 55px;
+    }
+    
+    .indicator-value {
+        font-size: 15px;
+    }
+    
+    .quick-commands {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .quick-command {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+    
+    .message .bubble {
+        max-width: 90%;
+        padding: 14px 18px;
+    }
+    
+    .hint-message {
+        bottom: 110px;
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .live-indicators {
+        grid-template-columns: 1fr;
+    }
+    
+    .message .bubble {
+        max-width: 95%;
+    }
+    
+    .init-error button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+    }
+}

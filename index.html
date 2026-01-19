@@ -3,21 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MaxGPT</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>MaxGPT - Мобильный AI помощник</title>
+    
+    <meta name="description" content="Мобильный AI помощник с поддержкой GigaChat API">
     <meta name="theme-color" content="#000000">
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- PWA манифест -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Иконки -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    
+    <!-- Стили -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Политика безопасности для GigaChat API -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https://gigachat.devices.sberbank.ru https://ngw.devices.sberbank.ru;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval';
+        style-src 'self' 'unsafe-inline';
+        connect-src 'self' https://gigachat.devices.sberbank.ru https://ngw.devices.sberbank.ru https://www.google.com https://connectivitycheck.gstatic.com https://captive.apple.com;
+        img-src 'self' data: https:;
+        font-src 'self' data:;
+    ">
+    
+    <style>
+        /* Инлайн стили для быстрой загрузки */
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #111111;
+            --text-primary: #ffffff;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+            z-index: 1000;
+        }
+        
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #4dabf7;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Статус бар -->
-        <div class="status-bar" id="connection-status">
-            ⚡ Загрузка...
+    <!-- Экран загрузки -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-spinner"></div>
+        <div style="text-align: center;">
+            <h2>MaxGPT</h2>
+            <p style="opacity: 0.7;">Инициализация приложения...</p>
         </div>
-        
-        <!-- Шапка -->
+    </div>
+    
+    <!-- Основной контейнер приложения -->
+    <div class="app-container" id="app-container" style="display: none;">
+        <!-- Шапка приложения -->
         <header class="header">
             <div class="logo">
                 <div class="logo-icon">M</div>
@@ -27,122 +100,232 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button class="icon-btn" id="settings-btn">⚙️</button>
-                <button class="icon-btn" id="clear-chat">🗑️</button>
+                <button class="icon-btn" id="settings-btn" title="Настройки">
+                    ⚙️
+                </button>
+                <button class="icon-btn" id="clear-chat" title="Очистить чат">
+                    🗑️
+                </button>
             </div>
-<!-- Панель индикаторов -->
-<div class="live-indicators">
-    <div class="indicator">
-        <span class="indicator-label">Пинг</span>
-        <span class="indicator-value" id="ping-display">—</span>
-    </div>
-    <div class="indicator">
-        <span class="indicator-label">API</span>
-        <span class="indicator-value" id="api-status">—</span>
-    </div>
-    <div class="indicator">
-        <span class="indicator-label">Токен</span>
-        <span class="indicator-value" id="token-status">—</span>
-    </div>
-    <div class="indicator">
-        <span class="indicator-label">Сообщения</span>
-        <span class="indicator-value" id="message-count">0</span>
-    </div>
-</div>
-
-<!-- Быстрые команды -->
-<div class="quick-commands">
-    <button class="quick-command" data-cmd="diagnose">🔍 Диагностика</button>
-    <button class="quick-command" data-cmd="status">📊 Статус</button>
-    <button class="quick-command" data-cmd="ping">📶 Пинг</button>
-    <button class="quick-command" onclick="app.checkAllSystems()">🔄 Проверить</button>
-</div>
         </header>
-
+        
+        <!-- Панель индикаторов состояния -->
+        <div class="live-indicators">
+            <div class="indicator">
+                <span class="indicator-label">Пинг</span>
+                <span class="indicator-value" id="ping-display">—</span>
+            </div>
+            <div class="indicator">
+                <span class="indicator-label">API</span>
+                <span class="indicator-value" id="api-status">—</span>
+            </div>
+            <div class="indicator">
+                <span class="indicator-label">Токен</span>
+                <span class="indicator-value" id="token-status">—</span>
+            </div>
+            <div class="indicator">
+                <span class="indicator-label">Сообщения</span>
+                <span class="indicator-value" id="message-count">0</span>
+            </div>
+        </div>
+        
+        <!-- Панель быстрых команд -->
+        <div class="quick-commands">
+            <button class="quick-command" data-cmd="diagnose" title="Запустить диагностику">
+                🔍 Диагностика
+            </button>
+            <button class="quick-command" data-cmd="status" title="Показать статус системы">
+                📊 Статус
+            </button>
+            <button class="quick-command" data-cmd="ping" title="Проверить пинг">
+                📶 Пинг
+            </button>
+            <button class="quick-command" id="refresh-status" title="Обновить статус">
+                🔄 Обновить
+            </button>
+        </div>
+        
         <!-- Область чата -->
         <main class="chat-container" id="chat-history">
-            <!-- Приветственное сообщение -->
-            <div class="message system-message">
-                <div class="avatar">🤖</div>
-                <div class="bubble">
-                    <div class="text">
-                        Привет! Я MaxGPT — ваш мобильный помощник.
-                        <br><br>
-                        💡 <strong>Быстрые команды:</strong>
-                        <br>• "Расскажи о..."
-                        <br>• "Объясни..."
-                        <br>• "Помоги с..."
-                        <br><br>
-                        Напишите что-нибудь или используйте кнопки ниже ↓
+            <!-- Сообщения будут добавляться сюда динамически -->
+            <div class="welcome-message">
+                <div class="message system-message">
+                    <div class="avatar">🤖</div>
+                    <div class="bubble">
+                        <div class="text">
+                            <strong>MaxGPT инициализируется...</strong><br>
+                            Загрузка системы, пожалуйста, подождите.
+                        </div>
+                        <div class="meta">
+                            <span class="time">—</span>
+                        </div>
                     </div>
-                    <div class="time">только что</div>
                 </div>
             </div>
         </main>
-
-        <!-- Быстрые ответы -->
-        <div class="quick-replies">
-            <button class="quick-reply">Привет!</button>
-            <button class="quick-reply">Расскажи о себе</button>
-            <button class="quick-reply">Что ты умеешь?</button>
-            <button class="quick-reply">Помоги с кодом</button>
-        </div>
-
-        <!-- Поле ввода -->
+        
+        <!-- Панель ввода сообщений -->
         <div class="input-container">
             <div class="input-wrapper">
-                <button class="icon-btn" id="attach-btn">📎</button>
+                <button class="icon-btn" id="attach-btn" title="Прикрепить файл">
+                    📎
+                </button>
                 <textarea 
                     class="input-field" 
                     id="user-input" 
-                    placeholder="Введите сообщение..."
+                    placeholder="Введите сообщение или er:код_ошибки..."
                     rows="1"
+                    maxlength="2000"
                 ></textarea>
-                <button class="icon-btn" id="mic-btn">🎤</button>
-                <button class="send-btn" id="send-btn">↑</button>
+                <button class="icon-btn" id="mic-btn" title="Голосовой ввод">
+                    🎤
+                </button>
+                <button class="send-btn" id="send-btn" title="Отправить сообщение">
+                    ↑
+                </button>
+            </div>
+            
+            <!-- Счетчик символов -->
+            <div class="input-footer">
+                <span class="char-counter" id="char-counter">0/2000</span>
+                <div class="hint-text">
+                    <small>Shift+Enter для новой строки • Enter для отправки</small>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Информационное сообщение (демо) -->
-    <div class="info-message" id="demo-info" style="display: none;">
-        <div class="title">🎭 Демо-режим</div>
-        <div class="description">
-            Для реальных ответов добавьте API ключ DeepSeek в config.js
+    
+    <!-- Контейнер для уведомлений -->
+    <div id="notifications-container"></div>
+    
+    <!-- Модальное окно настроек -->
+    <div class="modal" id="settings-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ Настройки MaxGPT</h3>
+                <button class="modal-close" onclick="app.closeModal('settings-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h4>API Настройки</h4>
+                    <div class="setting-item">
+                        <label>Режим работы:</label>
+                        <div class="setting-value" id="api-mode">—</div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Модель:</label>
+                        <div class="setting-value">GigaChat</div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Данные</h4>
+                    <div class="setting-item">
+                        <label>Сообщений в истории:</label>
+                        <div class="setting-value" id="history-count">0</div>
+                    </div>
+                    <button class="btn-secondary" onclick="app.exportChat()">
+                        📥 Экспорт чата
+                    </button>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Система</h4>
+                    <div class="setting-item">
+                        <label>Версия приложения:</label>
+                        <div class="setting-value">2.1.0</div>
+                    </div>
+                    <button class="btn-secondary" onclick="app.clearCache()">
+                        🧹 Очистить кэш
+                    </button>
+                </div>
+            </div>
         </div>
-        <button class="btn-secondary" onclick="document.getElementById('demo-info').style.display='none'">
-            Понятно
-        </button>
     </div>
-
-    <!-- Подключаем скрипты -->
+    
+    <!-- Подключаем конфигурацию -->
     <script src="config.js"></script>
+    
+    <!-- Подключаем модули в правильном порядке -->
+    <script src="diagnose-system.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="ui-manager.js"></script>
+    <script src="app-core.js"></script>
+    
+    <!-- Главный скрипт приложения -->
     <script src="script.js"></script>
-
-    <!-- Инлайн скрипт для демо-режима -->
+    
+    <!-- Инлайн скрипт для инициализации -->
     <script>
-        // Показываем демо-сообщение если в демо-режиме
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                if (window.MAXGPT_CONFIG && window.MAXGPT_CONFIG.USE_MOCK_DATA) {
-                    document.getElementById('demo-info').style.display = 'block';
-                }
-            }, 2000);
-            
-            // Автоматическое увеличение высоты textarea
-            const textarea = document.getElementById('user-input');
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        // Управление экраном загрузки
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('app-container').style.display = 'flex';
+                }, 300);
+            }, 1000);
+        });
+        
+        // Обработка PWA установки
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(error) {
+                    console.log('Service Worker не зарегистрирован:', error);
+                });
             });
-            
-            // Ограничение ввода на мобилках
-            textarea.addEventListener('keypress', function(e) {
-                if (this.value.length > 2000 && e.key !== 'Backspace') {
-                    e.preventDefault();
-                    alert('Сообщение слишком длинное (макс. 2000 символов)');
-                }
+        }
+        
+        // Глобальные вспомогательные функции
+        window.copyText = function(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showNotification('Текст скопирован в буфер обмена', 'success');
+            }).catch(function(err) {
+                console.error('Ошибка копирования:', err);
+                showNotification('Не удалось скопировать текст', 'error');
             });
+        };
+        
+        // Функция показа уведомлений
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notifications-container');
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'} ${message}
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            setTimeout(function() {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(function() {
+                notification.classList.remove('show');
+                setTimeout(function() {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Обработка ошибок
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('Глобальная ошибка:', error);
+            showNotification(`Ошибка приложения: ${msg}`, 'error');
+            return false;
+        };
+        
+        // Автосохранение при закрытии
+        window.addEventListener('beforeunload', function(e) {
+            if (window.app && window.app.isProcessing) {
+                e.preventDefault();
+                e.returnValue = 'Идет отправка сообщения. Закрыть страницу?';
+                return 'Идет отправка сообщения. Закрыть страницу?';
+            }
         });
     </script>
 </body>

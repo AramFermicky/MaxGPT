@@ -1,0 +1,27 @@
+{
+  "name": "MaxGPT",
+  "version": "2.1.0",
+  "description": "Мобильный AI-помощник с поддержкой GigaChat API",
+  "features": {
+    "gigachat": true,
+    "diagnostics": true,
+    "error_help": true,
+    "network_monitoring": true,
+    "local_storage": true
+  },
+  "author": "MaxGPT Team",
+  "license": "MIT",
+  "repository": "https://github.com/your-repo/maxgpt",
+  "homepage": "https://your-domain.com/maxgpt",
+  "bugs": "https://github.com/your-repo/maxgpt/issues",
+  "keywords": [
+    "ai",
+    "gigachat",
+    "assistant",
+    "mobile",
+    "chat"
+  ],
+  "engines": {
+    "browser": "Chrome >= 80, Firefox >= 75, Safari >= 13"
+  }
+}

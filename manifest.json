@@ -1,0 +1,36 @@
+{
+  "name": "MaxGPT",
+  "short_name": "MaxGPT",
+  "description": "Мобильный AI помощник с поддержкой GigaChat API",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "ru",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Новый чат",
+      "short_name": "Чат",
+      "description": "Начать новый разговор",
+      "url": "/?new=true"
+    },
+    {
+      "name": "Диагностика",
+      "short_name": "Диагностика",
+      "description": "Запустить диагностику системы",
+      "url": "/?cmd=diagnose"
+    }
+  ]
+}
